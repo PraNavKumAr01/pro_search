@@ -123,13 +123,3 @@ class AdvancedWebSearch:
         except requests.RequestException as e:
             print(f"Search request failed: {e}")
             return []
-
-if __name__ == "__main__":
-    searcher = AdvancedWebSearch()
-    results = searcher.search("python web scraping")
-    
-    for result in results:
-        print(f"Title: {result['title']}")
-        print(f"Link: {result['link']}")
-        print(f"Description: {result['description']}")
-        print("---")
