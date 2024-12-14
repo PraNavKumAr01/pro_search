@@ -1,8 +1,16 @@
 from .search import AdvancedWebSearch
 from .agents import GroqClient
+import os
 
 class ProSearch:
     def __init__(self, api_key):
+        self.api_key = api_key or os.getenv("GROQ_API_KEY")
+
+        if not self.api_key:
+            raise ValueError(
+                "API key not found. Please provide it as an argument or set it in the environment variable 'GROQ_API_KEY'."
+            )
+        
         self.query = None
         self.searcher = AdvancedWebSearch()
         self.agent = GroqClient(api_key = api_key)
