@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="pro-search",
-    version="0.1.2",
+    version="0.1.3",
     author="Pranav Kumar",
     author_email="pranavkumarnair@gmail.com",
     description="An advanced web search package combining AI and web scraping",
