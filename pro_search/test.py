@@ -1,9 +1,9 @@
 from .pro_search import ProSearch
 
 searcher = ProSearch(
-    api_key="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"
+    api_key="api-key"
 )
-query = "Who took the decisive catch that won india the t20 cricket world cup?"
+query = "Your Query"
 
 res = searcher.run(query)
 print(res)

@@ -46,7 +46,7 @@ class GroqClient:
                     {"role": "user", "content": user_message}
                 ],
                 model="llama-3.1-8b-instant",
-                temperature=0.5, 
+                temperature=0.2, 
             )
 
             synthesized_context = chat_completion.choices[0].message.content.strip()
