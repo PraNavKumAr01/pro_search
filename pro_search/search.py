@@ -14,7 +14,8 @@ class AdvancedWebSearch:
     def __init__(self, 
                  proxies: Optional[List[str]] = None, 
                  cache_db_path: str = 'web_search_cache.db',
-                 rate_limit: int = 0):
+                 rate_limit: int = 0,
+                 verbose: bool = True):
         """
         Initialize advanced web search with enhanced capabilities
         
@@ -36,10 +37,15 @@ class AdvancedWebSearch:
         
         self.proxies = proxies or []
         self.rate_limit = rate_limit
+        self.verbose = verbose
         
         # Setup cache database
         cache_db_path = str(os.getcwd() + cache_db_path)
         self._setup_cache_database(cache_db_path)
+
+    def _log(self, message):
+        if self.verbose:
+            print(message)
         
     def _setup_cache_database(self, db_path: str):
         """
@@ -150,9 +156,8 @@ class AdvancedWebSearch:
         """
         def clean_text(text: str) -> str:
             """Internal helper to clean extracted text"""
-            # Remove extra whitespaces
+            
             text = re.sub(r'\s+', ' ', text).strip()
-            # Remove non-printable characters
             text = re.sub(r'[^\x20-\x7E\n]+', '', text)
             return text[:max_length]
 
@@ -279,7 +284,7 @@ class AdvancedWebSearch:
             return results
             
         except Exception as e:
-            print(f"Search attempt failed: {e}")
+            self._log(f"Search attempt failed: {e}")
         
         return []
     
@@ -307,7 +312,7 @@ class AdvancedWebSearch:
                     content = future.result()
                     results.append(content)
                 except Exception as e:
-                    print(f"Scraping error: {str(e)}")
+                    self._log(f"Scraping error: {str(e)}")
         
         return results
     

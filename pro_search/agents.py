@@ -2,8 +2,13 @@ from datetime import date
 from groq import Groq
 
 class GroqClient:
-    def __init__(self, api_key):
+    def __init__(self, api_key, verbose: bool = True):
         self.client = Groq(api_key=api_key)
+        self.verbose = verbose
+
+    def _log(self, message):
+        if self.verbose:
+            print(message)
 
     def generate_context(self, user_query, summaries):
         """
@@ -53,7 +58,7 @@ class GroqClient:
             return synthesized_context
 
         except Exception as e:
-            print(f"Error during summary aggregation: {e}")
+            self._log(f"Error during summary aggregation: {e}")
             return None
 
     def generate_content_summary(self, user_query, site_content):
@@ -85,7 +90,7 @@ class GroqClient:
             return res
 
         except Exception as e:
-            print(f"Error occurred: {e}")
+            self._log(f"Error occurred: {e}")
             return None
 
     def generate_search_query(self, user_query):
@@ -119,5 +124,5 @@ class GroqClient:
             return res
 
         except Exception as e:
-            print(f"Error occurred: {e}")
+            self._log(f"Error occurred: {e}")
             return None
