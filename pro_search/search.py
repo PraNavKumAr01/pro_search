@@ -12,8 +12,9 @@ from readability import Document
 
 class AdvancedWebSearch:
     def __init__(self, 
-                 proxies: Optional[List[str]] = None, 
-                 cache_db_path: str = 'web_search_cache.db',
+                 proxies: Optional[List[str]] = None,
+                 setup_cache: bool = True,
+                 cache_db_path: str = '/web_search_cache.db',
                  rate_limit: int = 0,
                  verbose: bool = True):
         """
@@ -38,10 +39,12 @@ class AdvancedWebSearch:
         self.proxies = proxies or []
         self.rate_limit = rate_limit
         self.verbose = verbose
+        self.setup_cache = setup_cache
         
-        # Setup cache database
-        cache_db_path = str(os.getcwd() + cache_db_path)
-        self._setup_cache_database(cache_db_path)
+        if self.setup_cache:
+            # Setup cache database
+            cache_db_path = str(os.getcwd() + cache_db_path)
+            self._setup_cache_database(cache_db_path)
 
     def _log(self, message):
         if self.verbose:
@@ -156,7 +159,7 @@ class AdvancedWebSearch:
         """
         def clean_text(text: str) -> str:
             """Internal helper to clean extracted text"""
-            
+
             text = re.sub(r'\s+', ' ', text).strip()
             text = re.sub(r'[^\x20-\x7E\n]+', '', text)
             return text[:max_length]
@@ -212,6 +215,9 @@ class AdvancedWebSearch:
         Enhanced search method with caching, proxy support, and robustness
         """
         # Check cache first
+        if self.setup_cache != use_cache:
+            self._log("Caching not setup. Initialize cache first by using `setup_cache` = True")
+            return []
         if use_cache:
             cached_results = self._get_cached_search_results(query)
             if cached_results:
