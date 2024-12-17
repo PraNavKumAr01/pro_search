@@ -1,3 +1,5 @@
+![Pro Search Illustration](pro_search.png)
+
 # ProSearch
 
 A powerful web search and content synthesis tool that leverages GROQ AI to provide comprehensive, context-rich answers to your queries.
